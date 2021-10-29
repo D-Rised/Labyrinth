@@ -12,9 +12,12 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
     private GameState gameState;
+    private PlayerController player;
 
     private void Awake()
     {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+
         if (instance == null)
         {
             instance = this;
@@ -28,6 +31,30 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         gameState = GameState.Stop;
+    }
+
+    // Применение паттерна "Observer"
+    private void OnEnable()
+    {
+        player.OnHealthChange += PlayerTakeDamage;
+    }
+
+    private void OnDisable()
+    {
+        player.OnHealthChange -= PlayerTakeDamage;
+    }
+
+    public void PlayerTakeDamage(int damage)
+    {
+        if (player != null)
+        {
+            if (player.GetHealth() <= 0)
+            {
+                Destroy(player);
+                SetGameState(GameState.Stop);
+                UIManager.instance.SwitchScreen(ScreenType.End);
+            }
+        }
     }
 
     public void SetGameState(GameState _gameState)
