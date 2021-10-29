@@ -8,13 +8,16 @@ public class HealthPotion : Item
 
     private void Start()
     {
-        healthUp = new StatModifier(10, StatModifierType.Permanent);
+        healthUp = new StatModifier(10, StatModifierTimeType.Permanent, StatModifierValueType.Current);
     }
 
     public override void PickUp(PlayerController player)
     {
-        player.Health.ModifierAddCurrentValue(healthUp);
-        Destroy(gameObject);
+        if (player != null)
+        {
+            player.ApplyEffect(healthUp, player.Health);
+            Destroy(gameObject);
+        }
     }
 
     private void OnTriggerEnter(Collider entity)

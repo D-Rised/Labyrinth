@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public enum ButtonType
 {
-    StartGame,
-    Restart,
-    ToMainMenu
+    Start,
+    Restart
 }
 
 public class UIButton : MonoBehaviour
@@ -31,17 +31,12 @@ public class UIButton : MonoBehaviour
         if (uiManager == null) { return; }
         switch (buttonType)
         {
-            case ButtonType.StartGame:
+            case ButtonType.Start:
                 uiManager.SwitchScreen(ScreenType.Gameplay);
                 gameManager.SetGameState(GameState.Play);
                 break;
             case ButtonType.Restart:
-                uiManager.SwitchScreen(ScreenType.Gameplay);
-                gameManager.SetGameState(GameState.Play);
-                break;
-            case ButtonType.ToMainMenu:
-                uiManager.SwitchScreen(ScreenType.StartMenu);
-                gameManager.SetGameState(GameState.Stop);
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                 break;
         }
     }

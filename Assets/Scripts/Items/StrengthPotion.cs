@@ -2,17 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StrenthPotion : MonoBehaviour
+public class StrengthPotion : Item
 {
-    // Start is called before the first frame update
-    void Start()
+    private StatModifier damageUp;
+
+    private void Start()
     {
-        
+        damageUp = new StatModifier(100, StatModifierTimeType.Temporal, StatModifierValueType.Both, 5);
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void PickUp(PlayerController player)
     {
-        
+        if (player != null)
+        {
+            player.ApplyEffect(damageUp, player.Damage);
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnTriggerEnter(Collider entity)
+    {
+        if (entity.tag == "Player" && entity.GetComponent<PlayerController>() != null)
+        {
+            PickUp(entity.GetComponent<PlayerController>());
+        }
     }
 }

@@ -44,13 +44,13 @@ public class GameManager : MonoBehaviour
         player.OnHealthChange -= PlayerTakeDamage;
     }
 
-    public void PlayerTakeDamage(int damage)
+    public void PlayerTakeDamage(int health)
     {
         if (player != null)
         {
-            if (player.GetHealth() <= 0)
+            if (health <= 0)
             {
-                Destroy(player);
+                Destroy(player.gameObject);
                 SetGameState(GameState.Stop);
                 UIManager.instance.SwitchScreen(ScreenType.End);
             }

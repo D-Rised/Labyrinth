@@ -9,13 +9,32 @@ public class PlayerController : MonoBehaviour
 
     public event Action<int> OnHealthChange;
 
+    public Stats PlayerStats;
+
     public Stat Health;
     public Stat Speed;
     public Stat Damage;
 
+    public Item item;
+
+    public bool underEffect;
+
+    public PlayerEffects playerEffects;
+
     void Start()
     {
-        Health = new Stat(100, 100);
+        playerEffects = GetComponent<PlayerEffects>();
+
+        List<Stat> stats = new List<Stat>();
+        Health = new Stat(StatType.Health, 100, 100);
+        Damage = new Stat(StatType.Damage, 0, 0);
+        Speed = new Stat(StatType.Speed, 100, 100);
+
+        stats.Add(Health);
+        stats.Add(Damage);
+        stats.Add(Speed);
+        
+        PlayerStats = new Stats(stats);
     }
     
     void Update()
@@ -23,21 +42,17 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    public int GetHealth()
-    {
-        return Health.Value;
-    }
-
     public void ApplyDamage(int damage)
     {
-        if (Health != null)
-        {
-            Health.Value -= damage;
-        }
-
         if (OnHealthChange != null)
         {
-            OnHealthChange.Invoke(damage);
+            Health.Value -= damage;
+            OnHealthChange.Invoke(Health.Value);
         }
+    }
+
+    public void ApplyEffect(StatModifier effect, Stat stat)
+    {
+        playerEffects.AddEffect(effect, stat);
     }
 }

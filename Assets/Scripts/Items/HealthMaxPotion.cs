@@ -4,17 +4,20 @@ using UnityEngine;
 
 public class HealthMaxPotion : Item
 {
-    StatModifier healthUp;
+    private StatModifier healthMaxUp;
 
     private void Start()
     {
-        healthUp = new StatModifier(50, StatModifierType.Permanent);
+        healthMaxUp = new StatModifier(50, StatModifierTimeType.Permanent, StatModifierValueType.Max);
     }
 
     public override void PickUp(PlayerController player)
     {
-        player.Health.ModifierAddMaxValue(healthUp);
-        Destroy(gameObject);
+        if (player != null)
+        {
+            player.ApplyEffect(healthMaxUp, player.Health);
+            Destroy(gameObject);
+        }
     }
 
     private void OnTriggerEnter(Collider entity)

@@ -2,24 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum StatModifierType
+public enum StatModifierTimeType
 {
     Permanent,
     Temporal
 }
 
-public class StatModifier : MonoBehaviour
+public enum StatModifierValueType
+{
+    Current,
+    Max,
+    Both
+}
+
+public class StatModifier
 {
     public readonly int Value;
-    public readonly StatModifierType Type;
+    public readonly StatModifierTimeType TimeType;
+    public readonly StatModifierValueType ValueType;
     public readonly int Seconds;
 
-    public StatModifier(int value, StatModifierType type, int seconds)
+    public StatModifier(int value, StatModifierTimeType timeType, StatModifierValueType valueType, int seconds)
     {
         Value = value;
-        Type = type;
+        TimeType = timeType;
+        ValueType = valueType;
         Seconds = seconds;
     }
 
-    public StatModifier(int value, StatModifierType type) : this(value, type, 0) { }
+    public StatModifier(int value, StatModifierTimeType timeType, StatModifierValueType valueType) : this(value, timeType, valueType, 0) { }
 }

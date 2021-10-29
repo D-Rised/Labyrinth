@@ -45,7 +45,7 @@ public class UIManager : MonoBehaviour
             lastActiveUIController.gameObject.SetActive(false);
         }
 
-        UIController selectedUIController = uiControllerList.Find(x => x.screenType == screenType);
+        UIController selectedUIController = uiControllerList.Find(x => x.ScreenType == screenType);
 
         if (selectedUIController != null)
         {

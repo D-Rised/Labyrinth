@@ -3,67 +3,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[Serializable]
-public class Stat : MonoBehaviour
+public enum StatType
 {
+    Health,
+    Damage,
+    Speed,
+    Ghost
+}
+
+[Serializable]
+public class Stat
+{
+    public StatType Type;
     public int Value;
     public int MaxValue;
-
-    private bool isCalculated = false;
-
-    private readonly List<StatModifier> statModifiers;
-        
-    public Stat(int value, int max)
+    
+    public Stat(StatType type, int value, int max)
     {
+        Type = type;
         Value = value;
         MaxValue = max;
-        statModifiers = new List<StatModifier>();
     }
 
-    public void ModifierAddCurrentValue(StatModifier modifier)
+    public int GetValue()
     {
-        Value = Mathf.Clamp(Value + modifier.Value, 0, MaxValue);
-        if (modifier.Type == StatModifierType.Temporal)
-        {
-            statModifiers.Add(modifier);
-            StartCoroutine(ValueModifierTimer(modifier.Seconds, modifier));
-        }
+        return Value;
     }
 
-    public void ModifierAddMaxValue(StatModifier modifier)
+    public int GetMaxValue()
     {
-        MaxValue += modifier.Value;
-        if (modifier.Type == StatModifierType.Temporal)
-        {
-            MaxValue += modifier.Value;
-            statModifiers.Add(modifier);
-            StartCoroutine(ValueModifierTimer(modifier.Seconds, modifier));
-        }
-    }
-
-    public void ModifierAddConstantValue(StatModifier modifier)
-    {
-        Value = Mathf.Clamp(Value + modifier.Value, 0, MaxValue);
-        MaxValue += modifier.Value;
-        if (modifier.Type == StatModifierType.Temporal)
-        {
-            statModifiers.Add(modifier);
-            StartCoroutine(ValueModifierTimer(modifier.Seconds, modifier));
-            StartCoroutine(MaxValueModifierTimer(modifier.Seconds, modifier));
-        }
-    }
-
-    private IEnumerator ValueModifierTimer(float seconds, StatModifier modifier)
-    {
-        yield return new WaitForSeconds(seconds);
-        Value = Mathf.Clamp(Value - modifier.Value, 1, MaxValue);
-        statModifiers.Remove(modifier);
-    }
-
-    private IEnumerator MaxValueModifierTimer(float seconds, StatModifier modifier)
-    {
-        yield return new WaitForSeconds(seconds);
-        MaxValue -= modifier.Value;
-        statModifiers.Remove(modifier);
+        return MaxValue;
     }
 }
