@@ -24,7 +24,7 @@ public class UIPlayerStats : MonoBehaviour
 
     private void UpdateValue(int value)
     {
-        float healthValue = (float)value / (float)player.Health.MaxValue;
+        float healthValue = (float)value / (float)player.Health.GetMaxValue();
         HealthBar.transform.localScale = new Vector3(healthValue, 1, 1);
     }
 }

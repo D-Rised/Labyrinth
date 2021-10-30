@@ -20,8 +20,7 @@ public class Enemy : MonoBehaviour
     public NavMeshAgent enemyNavMeshAgent;
     public GameObject player;
     public PlayerController playerController;
-
-    public GameObject test;
+    
     public float speed;
     public float walkRadius;
     public float triggerPlayerDistance;
@@ -50,6 +49,35 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         EnemyMove();
+    }
+    
+    public void ApplyDamage(int damage)
+    {
+        var enemy = GetComponent<Enemy>();
+        var health = enemy.Health.GetValue();
+        enemy.Health.SetValue(health - damage);
+        if (enemy.Health.GetValue() <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnTriggerEnter(Collider entity)
+    {
+        if (entity.tag == "Player" && entity.GetComponent<PlayerController>() != null)
+        {
+            PlayerController player = entity.GetComponent<PlayerController>();
+            var enemy = GetComponent<Enemy>();
+            if (!enemy.isAttacked && player.Damage.GetValue() <= 0)
+            {
+                enemy.isAttacked = true;
+                player.ApplyDamage(enemy.Damage.GetValue());
+            }
+            else if (player.Damage.GetValue() > 0)
+            {
+                ApplyDamage(player.Damage.GetValue());
+            }
+        }
     }
 
     public virtual void EnemyMove()

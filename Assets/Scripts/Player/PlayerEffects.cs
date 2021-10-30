@@ -31,16 +31,16 @@ public class PlayerEffects : MonoBehaviour
 
             if (effect.ValueType == StatModifierValueType.Current)
             {
-                stat.Value = Mathf.Clamp(stat.Value + effect.Value, 0, stat.MaxValue);
+                stat.SetValue(Mathf.Clamp(stat.GetValue() + effect.Value, 0, stat.GetMaxValue()));
             }
             else if (effect.ValueType == StatModifierValueType.Max)
             {
-                stat.MaxValue += effect.Value;
+                stat.SetMaxValue(stat.GetMaxValue() + effect.Value);
             }
             else if (effect.ValueType == StatModifierValueType.Both)
             {
-                stat.MaxValue += effect.Value;
-                stat.Value = Mathf.Clamp(stat.Value + effect.Value, 0, stat.MaxValue);
+                stat.SetMaxValue(stat.GetMaxValue() + effect.Value);
+                stat.SetValue(Mathf.Clamp(stat.GetValue() + effect.Value, 0, stat.GetMaxValue()));
             }
 
             StartCoroutine(EffectDuration(effect, stat));
@@ -50,16 +50,16 @@ public class PlayerEffects : MonoBehaviour
         {
             if (effect.ValueType == StatModifierValueType.Current)
             {
-                stat.Value = Mathf.Clamp(stat.Value + effect.Value, 0, stat.MaxValue);
+                stat.SetValue(Mathf.Clamp(stat.GetValue() + effect.Value, 0, stat.GetMaxValue()));
             }
             else if (effect.ValueType == StatModifierValueType.Max)
             {
-                stat.MaxValue += effect.Value;
+                stat.SetMaxValue(stat.GetMaxValue() + effect.Value);
             }
             else if (effect.ValueType == StatModifierValueType.Both)
             {
-                stat.MaxValue += effect.Value;
-                stat.Value = Mathf.Clamp(stat.Value + effect.Value, 0, stat.MaxValue);
+                stat.SetMaxValue(stat.GetMaxValue() + effect.Value);
+                stat.SetValue(Mathf.Clamp(stat.GetValue() + effect.Value, 0, stat.GetMaxValue()));
             }
         }
     }
@@ -75,16 +75,16 @@ public class PlayerEffects : MonoBehaviour
 
         if (effect.ValueType == StatModifierValueType.Current)
         {
-            stat.Value = Mathf.Clamp(stat.Value - effect.Value, 0, stat.MaxValue);
+            stat.SetValue(Mathf.Clamp(stat.GetValue() - effect.Value, 0, stat.GetMaxValue()));
         }
         else if (effect.ValueType == StatModifierValueType.Max)
         {
-            stat.MaxValue -= effect.Value;
+            stat.SetMaxValue(stat.GetMaxValue() - effect.Value);
         }
         else if (effect.ValueType == StatModifierValueType.Both)
         {
-            stat.MaxValue -= effect.Value;
-            stat.Value = Mathf.Clamp(stat.Value - effect.Value, 0, stat.MaxValue);
+            stat.SetMaxValue(stat.GetMaxValue() - effect.Value);
+            stat.SetValue(Mathf.Clamp(stat.GetValue() - effect.Value, 0, stat.GetMaxValue()));
         }
 
         RemoveEffect(effect);

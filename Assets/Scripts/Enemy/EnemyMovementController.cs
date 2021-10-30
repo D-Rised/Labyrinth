@@ -10,8 +10,7 @@ public class EnemyMovementController : MonoBehaviour
     private NavMeshAgent enemyNavMeshAgent;
     private GameObject player;
     private PlayerController playerController;
-
-    public GameObject test;
+    
     public float walkRadius;
     public float triggerPlayerDistance;
     public float attackDistance;
@@ -33,7 +32,7 @@ public class EnemyMovementController : MonoBehaviour
         playerController = player.GetComponent<PlayerController>();
 
         enemyNavMeshAgent.speed = 5;
-        Stat speed = enemy.EnemyStats.GetStats().ToList().Find(x => x.Type == StatType.Speed);
+        Stat speed = enemy.EnemyStats.GetStats().ToList().Find(x => x.GetStatType() == StatType.Speed);
         if (speed != null)
         {
             enemyNavMeshAgent.speed = speed.GetValue();

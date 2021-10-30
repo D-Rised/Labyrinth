@@ -7,22 +7,26 @@ public enum StatType
 {
     Health,
     Damage,
-    Speed,
-    Ghost
+    Speed
 }
 
 [Serializable]
 public class Stat
 {
-    public StatType Type;
-    public int Value;
-    public int MaxValue;
+    private StatType Type;
+    private int Value;
+    private int MaxValue;
     
     public Stat(StatType type, int value, int max)
     {
         Type = type;
         Value = value;
         MaxValue = max;
+    }
+
+    public StatType GetStatType()
+    {
+        return Type;
     }
 
     public int GetValue()
@@ -33,5 +37,15 @@ public class Stat
     public int GetMaxValue()
     {
         return MaxValue;
+    }
+
+    public void SetValue(int newValue)
+    {
+        Value = newValue;
+    }
+
+    public void SetMaxValue(int newMaxValue)
+    {
+        MaxValue = newMaxValue;
     }
 }

@@ -18,6 +18,6 @@ public class Stats : IStats
 
     public Stat GetStatsByType(StatType type)
     {
-        return _stats.Find(x => x.Type == type);
+        return _stats.Find(x => x.GetStatType() == type);
     }
 }

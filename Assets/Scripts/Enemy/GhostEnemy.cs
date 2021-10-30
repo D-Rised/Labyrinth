@@ -6,7 +6,6 @@ using UnityEngine.AI;
 public class GhostEnemy : Enemy
 {
     public Stat Speed;
-    public Stat Ghost;
     public bool canWalk;
 
     void Awake()
@@ -15,12 +14,10 @@ public class GhostEnemy : Enemy
         Health = new Stat(StatType.Health, 10, 10);
         Damage = new Stat(StatType.Damage, 25, 25);
         Speed = new Stat(StatType.Speed, 1, 1);
-        Ghost = new Stat(StatType.Ghost, 1, 1);
 
         stats.Add(Health);
         stats.Add(Damage);
         stats.Add(Speed);
-        stats.Add(Ghost);
 
         EnemyStats = new Stats(stats);
     }
@@ -81,7 +78,8 @@ public class GhostEnemy : Enemy
                 if (!isTriggered)
                 {
                     isTriggered = true;
-                    currentDestination = Random.insideUnitSphere * 2 + player.transform.position;
+                    Vector3 randomPosition = Random.insideUnitSphere;
+                    currentDestination = new Vector3(randomPosition.x, 0, randomPosition.z)  * 2 +  new Vector3(player.transform.position.x, 0, player.transform.position.y);
                 }
 
                 if (currentTargetDistance <= 1)

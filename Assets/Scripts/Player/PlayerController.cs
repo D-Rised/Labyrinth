@@ -46,8 +46,9 @@ public class PlayerController : MonoBehaviour
     {
         if (OnHealthChange != null)
         {
-            Health.Value -= damage;
-            OnHealthChange.Invoke(Health.Value);
+            var health = Health.GetValue();
+            Health.SetValue(health - damage);
+            OnHealthChange.Invoke(Health.GetValue());
         }
     }
 
